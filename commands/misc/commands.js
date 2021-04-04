@@ -16,7 +16,7 @@ module.exports = {
         let ce = new Discord.MessageEmbed()
             .setTitle("Commands")
             .setDescription(`You can use \`${prefix}help\` on any command to get more help on it.`)
-            .setColor('dc134c')
+            .setColor('2c9cb0')
             .setFooter("Kit", client.user.avatarURL())
             .setTimestamp();
         categories.forEach(category => ce.addField(category, Array.from(client.commands.values()).filter(command => command.meta ? command.meta.category === category : category === "Uncategorized").map(cmd => `\`${cmd.name}\``).join(', ')));
