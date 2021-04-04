@@ -6,7 +6,7 @@ The official repository of the Kit Discord bot, which is the mascot of [Neptune 
 ### Devs
 
 [![WubzyGD](https://api.slushie.gg/avatar/330547934951112705?size=32&format=gif)](https://github.com/WubzyGD "Wubzy's GitHub") WubzyGD - Primary developer -> _The JavaScript nerd, of course he is_  
-[![Brys](https://cdn.discordapp.com/avatars/497598953206841375/66a33af01bb4f269dd081b50008910d2.png?size=32)](https://github.com/Brys0 "Brys' GitHub") Brys - Secondary Dev + bug hunter and feedback
+[![Brys](https://cdn.discordapp.com/avatars/443166863996878878/03f80bb5286a96196b0a277a2cce7651.png?size=32)](https://github.com/Brys0 "Brys' GitHub") Brys - Secondary Dev + bug hunter and feedback
 
 ### Purpose
 
