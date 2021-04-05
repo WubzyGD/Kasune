@@ -12,7 +12,9 @@ client.misc = {
     startup: new Date(),
     startupNoConnect: null,
     loggers: {},
-    cache: {}
+    cache: {},
+    neptune: '703196054966894642',
+    selfroles: new Map()
 };
 
 //const config = require('./config.js');
