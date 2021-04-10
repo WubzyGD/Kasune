@@ -45,7 +45,7 @@ module.exports = {
         if (args[2]) {args.shift(); args.shift(); reason = args.join(" ").trim();}
 
         try {
-            message.member.roles.add("717419538970312755")
+            person.roles.add("717419538970312755")
                 .then(() => message.channel.send("I've muted that member!"))
                 .catch(() => message.channel.send("There was an error while trying to mute that member. I may not have the correct permissions, or something else went wrong."));
         } catch {}
