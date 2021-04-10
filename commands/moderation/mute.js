@@ -52,5 +52,7 @@ module.exports = {
 
         let tm = new Mute({uid: person.id, until: time, mutedBy: message.author.id, reason: reason});
         tm.save();
+
+        return client.misc.cache.mute.set(person.id, time);
     }
 };

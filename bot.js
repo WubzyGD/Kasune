@@ -14,7 +14,8 @@ client.misc = {
     loggers: {},
     cache: {},
     neptune: '703196054966894642',
-    selfroles: new Map()
+    selfroles: new Map(),
+    mute: new Map()
 };
 
 //const config = require('./config.js');

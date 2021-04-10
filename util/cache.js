@@ -13,4 +13,9 @@ module.exports = async (client) => {
     ora_blCache.stop(); ora_blCache.clear();
     console.log(`${chalk.gray('[PROC]')} >> ${chalk.blueBright(`Cached`)} ${chalk.white(`${client.misc.cache.bl.guild.length}`)} ${chalk.blueBright(`guild blacklists`)}`);
     console.log(`${chalk.gray('[PROC]')} >> ${chalk.blueBright(`Cached`)} ${chalk.white(`${client.misc.cache.bl.user.length}`)} ${chalk.blueBright(`user blacklists`)}`);
+
+    let ora_blCache = ora("Caching Mutes...").start();
+    await require('./cache/mute')(client);
+    ora_mCache.stop(); ora_mCache.clear();
+    console.log(`${chalk.gray('[PROC]')} >> ${chalk.blueBright(`Cached`)} ${chalk.white(`${client.misc.cache.mute.size}`)} ${chalk.blueBright(`mutes`)}`);
 };

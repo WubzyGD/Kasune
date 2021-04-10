@@ -7,6 +7,7 @@ const ora = require('ora');
 const GuildSettings = require('../models/guild');
 const BotDataSchema = require('../models/bot');
 const LogData = require('../models/log');
+const Mute = require('../models/mute');
 
 const siftStatuses = require('../util/siftstatuses');
 
@@ -55,6 +56,17 @@ module.exports = async client => {
 
 	siftStatuses();
 	setInterval(() => {setPL(); siftStatuses(client, null);}, 120000);
+
+	const muteLoop = async () => {
+	    let ct = new Date().getTime();
+	    let mute; for (mute of Array.from(client.misc.cache.mute.keys())) {
+	        if (ct >= client.misc.cache.mute.get(mute)) {
+	            client.guilds.cache.get(client.misc.neptune).members.cache.get(mute).roles.remove('717419538970312755');
+	            await Mute.deleteOne({uid: mute});
+	        }
+	    }
+	}
+	setInterval(() => muteLoop, 60000);
 
 	await require('../util/cache')(client);
 
