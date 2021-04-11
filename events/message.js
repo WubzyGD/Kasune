@@ -14,7 +14,7 @@ module.exports = async (client, message) => {
 
     if (message.guild && !message.member.permissions.has("SEND_MESSAGES")) {return undefined;}
 	
-    let prefix = message.guild ? client.guildconfig.prefixes.has(message.guild.id) ? client.guildconfig.prefixes.get(message.guild.id) !== null ? client.guildconfig.prefixes.get(message.guild.id) : '-' : '-' : '-';
+    let prefix = message.guild ? client.guildconfig.prefixes.has(message.guild.id) ? client.guildconfig.prefixes.get(message.guild.id) !== null ? client.guildconfig.prefixes.get(message.guild.id) : '--' : '--' : '--';
 
 	let msg = message.content.toLowerCase();
 	let mention = message.mentions.users.first();

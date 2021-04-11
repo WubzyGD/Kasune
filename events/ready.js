@@ -11,7 +11,7 @@ const Mute = require('../models/mute');
 
 const siftStatuses = require('../util/siftstatuses');
 
-let prefix = '-';
+const prefix = '--';
 
 module.exports = async client => {
 	const config = client.config;
@@ -57,18 +57,35 @@ module.exports = async client => {
 	siftStatuses();
 	setInterval(() => {setPL(); siftStatuses(client, null);}, 120000);
 
+	await require('../util/cache')(client);
+
 	const muteLoop = async () => {
 	    let ct = new Date().getTime();
 	    let mute; for (mute of Array.from(client.misc.cache.mute.keys())) {
 	        if (ct >= client.misc.cache.mute.get(mute)) {
-	            client.guilds.cache.get(client.misc.neptune).members.cache.get(mute).roles.remove('717419538970312755');
+				if (client.guilds.cache.get(client.misc.neptune).members.cache.has(mute)) {
+					let mutedata = await Mute.findOne({uid: mute});
+					client.guilds.cache.get(client.misc.neptune).members.cache.get(mute).roles.remove('717419538970312755')
+						.then(() => {
+							let muten = client.guilds.cache.get(client.misc.neptune).members.cache.get(mute).displayName;
+							client.guilds.cache.get(client.misc.neptune).channels.cache.get('830600344668602409').send(new Discord.MessageEmbed()
+								.setTitle("Member Automatically Unmuted")
+								.setDescription(`<@${mute}>${muten.endsWith('s') ? "'" : "'s"} mute time has ended, and I've unmuted them.`)
+								.addField("Muting Moderator", `<@${mutedata.mutedBy}>`, true)
+								.addField("Reason", mutedata.reason.length ? mutedata.reason : 'No reason provided', true)
+								.setColor('2c9cb0')
+								.setFooter("Kit", client.user.avatarURL())
+								.setTimestamp()
+							);
+						});
+					}
 	            await Mute.deleteOne({uid: mute});
+				client.misc.cache.mute.delete(mute);
 	        }
 	    }
 	}
-	setInterval(() => muteLoop, 60000);
-
-	await require('../util/cache')(client);
+	muteLoop();
+	setInterval(muteLoop, 60000);
 
 	let botData = await BotDataSchema.findOne({finder: 'lel'})
 		? await BotDataSchema.findOne({finder: 'lel'})

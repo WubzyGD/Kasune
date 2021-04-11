@@ -30,6 +30,7 @@ module.exports = {
         if (person.roles.cache.has(muted)) {return message.reply("That person is already muted!");}
         if (message.guild.roles.cache.get(muted).position <= person.roles.highest.position) {return message.reply("I don't have permissions to mute that member as their highest role is above or equal to the muted role!");}
 
+        let udur = args[1] ? args[1].toLowerCase().trim() : '1h';
         let time;
         if (args[1]) {
             let dur = args[1].slice(0, args[1].length - 1);
@@ -46,8 +47,18 @@ module.exports = {
 
         try {
             person.roles.add("717419538970312755")
-                .then(() => message.channel.send("I've muted that member!"))
-                .catch(() => message.channel.send("There was an error while trying to mute that member. I may not have the correct permissions, or something else went wrong."));
+                .then(() => message.channel.send("I've muted that member!")
+                    .then(() => message.guild.channels.cache.get('830600344668602409').send(new Discord.MessageEmbed()
+                        .setAuthor(message.member.displayName, message.author.avatarURL())
+                        .setTitle("Member Muted!")
+                        .setDescription(`<@${person.id}> was muted!`)
+                        .addField("Duration", udur, true)
+                        .addField("Reason", reason.length ? reason : "No reason provided", true)
+                        .setColor('2c9cb0')
+                        .setFooter("Kit", client.user.avatarURL())
+                        .setTimestamp()
+                    ))
+                ).catch(() => message.channel.send("There was an error while trying to mute that member. I may not have the correct permissions, or something else went wrong."));
         } catch {}
 
         let tm = new Mute({uid: person.id, until: time, mutedBy: message.author.id, reason: reason});
