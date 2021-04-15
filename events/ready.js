@@ -73,7 +73,7 @@ module.exports = async client => {
 								.setDescription(`<@${mute}>${muten.endsWith('s') ? "'" : "'s"} mute time has ended, and I've unmuted them.`)
 								.addField("Muting Moderator", `<@${mutedata.mutedBy}>`, true)
 								.addField("Reason", mutedata.reason.length ? mutedata.reason : 'No reason provided', true)
-								.setColor('2c9cb0')
+								.setColor('c77dff')
 								.setFooter("Kit", client.user.avatarURL())
 								.setTimestamp()
 							);

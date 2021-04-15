@@ -53,6 +53,14 @@ module.exports = {
 
         mh.cases = mhcases;
         mh.save();
+        message.guild.channels.cache.get('830600344668602409').send(new Discord.MessageEmbed()
+            .setAuthor(message.member.displayName, message.author.avatarURL())
+            .setTitle("Member Warnings Cleared!")
+            .setDescription(`<@${user.id}> had ${wc} warnings`)
+            .setColor('ebbd34')
+            .setFooter("Kit", client.user.avatarURL())
+            .setTimestamp()
+        );
         return message.reply(`Cleared ${wc} warnings from ${user.displayName}.`);
     }
 };

@@ -54,7 +54,7 @@ module.exports = {
                         .setDescription(`<@${person.id}> was muted!`)
                         .addField("Duration", udur, true)
                         .addField("Reason", reason.length ? reason : "No reason provided", true)
-                        .setColor('2c9cb0')
+                        .setColor('c77dff')
                         .setFooter("Kit", client.user.avatarURL())
                         .setTimestamp()
                     ))
