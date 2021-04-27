@@ -14,10 +14,11 @@ module.exports = async (client, member) => {
         .setThumbnail(client.guilds.cache.get(client.misc.neptune).iconURL({size: 1024}))
     );
 
-    let cm = Mute.findOne({uid: member.id});
+    let cm = await Mute.findOne({uid: member.id});
     if (cm) {
-        member.guild.members.ban(member.id)
-        .then(() => message.guild.channels.cache.get('830600344668602409').send("<@&828000073203974166>", new Discord.MessageEmbed()
+        //member.guild.members.ban(member.id)
+        client.users.cache.get(client.developers[0]).send(`Attempted to ban ${member.displayName}`)
+        .then(() => member.guild.channels.cache.get('830600344668602409').send("<@&828000073203974166>", new Discord.MessageEmbed()
             .setAuthor(member.displayName, client.users.cache.get(member.id).avatarURL())
             .setTitle("Mute Evasion Detected!")
             .setDescription(`<@${member.id}> has evaded their mute, and I've automatically banned them!`)
@@ -27,7 +28,7 @@ module.exports = async (client, member) => {
             .setTimestamp()
         )).catch(e => {
             console.error(`\n${chalk.red('[ERROR]')} >> ${chalk.yellow(`At [${date}] | Occurred while trying to ban a member for mute evasion`)}`, e);
-            message.guild.channels.cache.get('830600344668602409').send("<@&828000073203974166> **Failed automatic mute evasion ban!**", new Discord.MessageEmbed()
+            member.guild.channels.cache.get('830600344668602409').send("<@&828000073203974166> **Failed automatic mute evasion ban!**", new Discord.MessageEmbed()
                 .setAuthor(member.displayName, client.users.cache.get(member.id).avatarURL())
                 .setTitle("Mute Evasion Detected!")
                 .setDescription(`<@${member.id}> has evaded their mute, but I was not able to automatically ban them! Their user ID is \`${member.id}\`.`)
