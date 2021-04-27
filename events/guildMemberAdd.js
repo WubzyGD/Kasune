@@ -21,4 +21,6 @@ module.exports = async (client, member) => {
             .setFooter("Kit", client.user.avatarURL())
         );
     }).catch(() => {});
+
+    client.user.setActivity(`over ${client.guilds.cache.get(client.misc.neptune).members.cache.size} members!`);
 };
