@@ -27,7 +27,7 @@ module.exports = async client => {
     console.log(`${chalk.gray('[INFO]')} >> ${chalk.white(`Running on ${client.guilds.cache.size} servers!`)}`);
 	console.log(`${chalk.gray('[INFO]')} >> ${chalk.white(`Serving ${client.users.cache.size} users!`)}`);
 
-	client.user.setActivity(`over ${client.guilds.cache.get(client.misc.neptune).members.cache.size} members!`);
+	client.user.setActivity(`over ${client.guilds.cache.get(client.misc.neptune).members.cache.size} members!`, {type: "WATCHING"});
 
 	const setPL = async () => {let tg; for (tg of Array.from(client.guilds.cache.values)) {
 		let tguild = await GuildSettings.findOne({gid: tg.id});

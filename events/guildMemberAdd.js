@@ -22,5 +22,5 @@ module.exports = async (client, member) => {
         );
     }).catch(() => {});
 
-    client.user.setActivity(`over ${client.guilds.cache.get(client.misc.neptune).members.cache.size} members!`);
+    client.user.setActivity(`over ${client.guilds.cache.get(client.misc.neptune).members.cache.size} members!`, {type: "WATCHING"});
 };

@@ -14,7 +14,7 @@ module.exports = async (client, member) => {
         .setThumbnail(client.guilds.cache.get(client.misc.neptune).iconURL({size: 1024}))
     );
 
-    client.user.setActivity(`over ${client.guilds.cache.get(client.misc.neptune).members.cache.size} members!`);
+    client.user.setActivity(`over ${client.guilds.cache.get(client.misc.neptune).members.cache.size} members!`, {type: "WATCHING"});
 
     let cm = await Mute.findOne({uid: member.id});
     if (cm) {
