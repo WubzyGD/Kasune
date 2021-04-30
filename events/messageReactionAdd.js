@@ -2,6 +2,24 @@ const Discord = require("discord.js");
 const GuildData = require('../models/guild');
 const StarData = require('../models/starboard');
 
+const channel = '827739558472056842';
+const reactions = {
+    '828444039450984448': {
+        '♂️': '703508714635788338',
+        '♀️': '703508726363193344',
+        '⬇️': '837417440597901373',
+        '↗️': '837417440597901373',
+        '❌': '837417440597901373'
+    },
+    '828450544833396767': {
+        '🎮': '827741721399787590',
+        '🖌️': '827741412547100692',
+        '⌨️': '827741241490800651',
+        '📝': '828447192934121482',
+        '📺': '828447230003249152'
+    },
+};
+
 module.exports = async (client, reaction, user) => {
     if (reaction.partial) {try {await reaction.fetch();} catch {return;}}
 
@@ -36,6 +54,13 @@ module.exports = async (client, reaction, user) => {
                 sd.serverStarCount += 1;
                 sd.save();
             }
+        }
+    }
+
+    if (reaction.message.channel.id === channel && Object.keys(reactions).includes(reaction.message.id)) {
+        let rmsg = reactions[reaction.message.id];
+        if (Object.keys(rmsg).includes(reaction.emoji.name)) {
+            reaction.message.member.roles.add(rmsg[reaction.emoji.name]);
         }
     }
 };
