@@ -10,6 +10,7 @@ const LogData = require('../models/log');
 const Mute = require('../models/mute');
 
 const siftStatuses = require('../util/siftstatuses');
+const message = require('./message');
 
 const prefix = '-';
 
@@ -75,6 +76,16 @@ module.exports = async client => {
 	}
 	muteLoop();
 	setInterval(muteLoop, 60000);
+
+	setInterval(() => require('../util/rrloop')(client), 10000);
+
+	let fproms = [];
+	['828444039450984448', '828450544833396767', '837395032591695883', '837398024678277220', '837407739529265232'].forEach(async m => {
+		fproms.push(client.guilds.cache.get(client.misc.neptune).channels.cache.get('827739558472056842').messages.fetch(m));
+	});
+	let fms = await Promise.all(fproms);
+	console.log('');
+	fms.forEach(fm => {console.log(`${chalk.gray('[PROC]')} >> ${chalk.blueBright(`${fm.embeds[0].title}`)} ${chalk.white("cached.")}`);});
 
 	let botData = await BotDataSchema.findOne({finder: 'lel'})
 		? await BotDataSchema.findOne({finder: 'lel'})

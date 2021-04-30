@@ -7,9 +7,9 @@ const reactions = {
     '828444039450984448': {
         '♂️': '703508714635788338',
         '♀️': '703508726363193344',
-        '⬇️': '837417440597901373',
-        '↗️': '837417440597901373',
-        '❌': '837417440597901373'
+        '⬇️': '703508758902341664',
+        '↗️': '703508745715580958',
+        '❌': '703508773242929192'
     },
     '828450544833396767': {
         '🎮': '827741721399787590',
@@ -18,6 +18,28 @@ const reactions = {
         '📝': '828447192934121482',
         '📺': '828447230003249152'
     },
+    '837395032591695883': {
+        '1️⃣': '764168315492892692',
+        '2️⃣': '764168783429894226',
+        '3️⃣': '764168324371972116',
+        '4️⃣': '764168372442103828',
+        '5️⃣': '764168364187975700',
+        '6️⃣': '764168779226808322',
+        '7️⃣': '764168337231708162',
+        '8️⃣': '764168332206276658',
+        '9️⃣': '764168353648476201',
+        '0️⃣': '764168345590693900'
+    },
+    '837398024678277220': {
+        'NC_wave': '703506794726817792',
+        'NC_Chika': '703506838485729330'
+    },
+    '837407739529265232': {
+        '📑': '764171264385744906',
+        '📌': '764171275814830110',
+        '🤜': '764171245599064084',
+        '⚡': '764171284748828713'
+    }
 };
 
 module.exports = async (client, reaction, user) => {
@@ -57,10 +79,18 @@ module.exports = async (client, reaction, user) => {
         }
     }
 
+    if (user.bot) {return;}
+
     if (reaction.message.channel.id === channel && Object.keys(reactions).includes(reaction.message.id)) {
         let rmsg = reactions[reaction.message.id];
         if (Object.keys(rmsg).includes(reaction.emoji.name)) {
-            reaction.message.member.roles.add(rmsg[reaction.emoji.name]);
+            reaction.message.guild.members.cache.get(user.id).roles.add(rmsg[reaction.emoji.name]).catch(() => {}).then(() => {
+                let r = reaction.message.guild.roles.cache.get(rmsg[reaction.emoji.name]);
+                if (!client.misc.cache.rr[user.id]) {client.misc.cache.rr[user.id] = {add: [], rem: [], last: new Date()};}
+                if (client.misc.cache.rr[user.id].rem.includes(r)) {client.misc.cache.rr[user.id].rem.splice(client.misc.cache.rr.rem.indexOf(r), 1);}
+                client.misc.cache.rr[user.id].add.push(r);
+                client.misc.cache.rr[user.id].last.setTime(Date.now());
+            });
         }
     }
 };
