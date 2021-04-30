@@ -12,6 +12,8 @@ module.exports = client => {
             if (Object.keys(client.misc.cache.rr[member].rem).length) {
                 rrs = ''; let i; for (i = 0; i < client.misc.cache.rr[member].rem.length; i++) {rrs += `${client.misc.cache.rr[member].rem[i].name}, `;}
             }
+
+            if (!rrs && !ars) {return;}
             
             let emb = new Discord.MessageEmbed()
             .setTitle("Reaction Roles")
@@ -20,8 +22,8 @@ module.exports = client => {
             .setFooter('Kit', client.user.avatarURL())
             .setTimestamp();
 
-            if (ars) {emb.addField("Added", ars);}
-            if (rrs) {emb.addField("Removed", rrs);}
+            if (ars) {emb.addField("Added", ars.trim().slice(0, ars.length - 1));}
+            if (rrs) {emb.addField("Removed", rrs.trim().slice(0, rrs.length - 1));}
 
             delete client.misc.cache.rr[member];
     
