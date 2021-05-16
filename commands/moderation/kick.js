@@ -61,7 +61,16 @@ module.exports = {
                 mh.cases = mhcases;
                 mh.save();*/
 
-                return message.channel.send(`I got em outta here!${reason ? ` Reason for kicking: ${reason}` : ''}`);
+                return message.channel.send(`I got em outta here!${reason ? ` Reason for kicking: ${reason}` : ''}`)
+                    .then(() => message.guild.channels.cache.get('830600344668602409').send(new Discord.MessageEmbed()
+                        .setAuthor(message.member.displayName, message.author.avatarURL())
+                        .setTitle("Member Kicked!")
+                        .setDescription(`<@${user.id}> was kicked by ${message.author.username}!`)
+                        .addField("Reason", reason.length ? reason : "No reason provided")
+                        .setColor('83cb42')
+                        .setFooter("Kit", client.user.avatarURL())
+                        .setTimestamp()
+                    ));
             })
             .catch(() => {return message.channel.send("Something went wrong while trying to kick that user! If the problem persists, contact my devs.");});
     }

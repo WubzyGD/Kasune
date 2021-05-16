@@ -64,8 +64,31 @@ module.exports = {
                 mh.save();*/
 
                 return message.guild.members.unban(user.id, reason)
-                    .then(async () => {return message.channel.send("That user has been softbanned, and can now be re-invited to the server.");})
-                    .catch(() => {return message.channel.send("Something went wrong while trying to unban that user! This means that the member has been banned, but not unbanned afterward, so you'll need to unban them using the `unban` command or by doing it manually. If the problem persists, contact my devs.");});
+                    .then(async () => {
+                        return message.channel.send("That user has been softbanned, and can now be re-invited to the server.")
+                            .then(() => message.guild.channels.cache.get('830600344668602409').send(new Discord.MessageEmbed()
+                                .setAuthor(message.member.displayName, message.author.avatarURL())
+                                .setTitle("Member Softbanned!")
+                                .setDescription(`<@${user.id}> was soft-banned by ${message.author.username}!`)
+                                .addField("Reason", reason.length ? reason : "No reason provided")
+                                .setColor('eb7d34')
+                                .setFooter("Kit", client.user.avatarURL())
+                                .setTimestamp()
+                            ));
+                    })
+                    .catch(() => {
+                        return message.channel.send("Something went wrong while trying to unban that user! This means that the member has been banned, but not unbanned afterward, so you'll need to unban them using the `unban` command or by doing it manually. If the problem persists, contact my devs.")
+                            .then(() => message.guild.channels.cache.get('830600344668602409').send(new Discord.MessageEmbed()
+                                .setAuthor(message.member.displayName, message.author.avatarURL())
+                                .setTitle("Member Softbanned!")
+                                .setDescription(`<@${user.id}> was soft-banned by ${message.author.username}!`)
+                                .addField("Reason", reason.length ? reason : "No reason provided")
+                                .addField("Notice", "This member was not unbanned because of an error. Please manually unban them.")
+                                .setColor('eb7d34')
+                                .setFooter("Kit", client.user.avatarURL())
+                                .setTimestamp()
+                            ));
+                    });
             })
             .catch(() => {return message.channel.send("Something went wrong while trying to ban that user! If the problem persists, contact my devs.");});
     }

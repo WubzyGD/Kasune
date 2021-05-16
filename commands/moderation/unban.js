@@ -19,15 +19,20 @@ module.exports = {
 
         if (!message.member.permissions.has("BAN_MEMBERS")) {return message.channel.send("You don't have permissions to do that!");}
         if (!message.guild.me.permissions.has("BAN_MEMBERS")) {return message.channel.send("I don't have permissions to unban members in your server.");}
-        let user = client.users.cache.get(args[0]) || message.mentions.users.first();
+        let user = client.users.cache.get(args[0]) || message.mentions.users.first() || args[0];
 
-        if (!user) {
-            user = await client.users.fetch(args[0]);
-            if (!user) {return message.channel.send("You must mention a user to unban, or provide their ID.");}
-        }
-
-        return message.guild.members.unban(user.id)
-            .then(async () => {return message.channel.send("I've unbanned that user!");})
-            .catch(() => {return message.channel.send("Something went wrong while trying to unban that user! If the problem persists, contact my devs.");});
+        return message.guild.members.unban(user.id || user)
+            .then(async () => {
+                return message.channel.send("I've unbanned that user!")    
+                    .then(() => message.guild.channels.cache.get('830600344668602409').send(new Discord.MessageEmbed()
+                        .setAuthor(message.member.displayName, message.author.avatarURL())
+                        .setTitle("Member Unbanned!")
+                        .setDescription(`<@${user.id || user}> was unbanned by ${message.author.username}!`)
+                        .setColor('34eb86')
+                        .setFooter("Kit", client.user.avatarURL())
+                        .setTimestamp()
+                ));
+            })
+            .catch((e) => {return message.channel.send("Something went wrong while trying to unban that user! If the problem persists, contact my devs.");});
     }
 };
