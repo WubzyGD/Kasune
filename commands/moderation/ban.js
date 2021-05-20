@@ -79,7 +79,9 @@ module.exports = {
                         .setFooter("Kit", client.user.avatarURL())
                         .setTimestamp()
                     ));
+
             })
             .catch(() => {return message.channel.send("Something went wrong while trying to ban that user! This is probably a permissions issue, or you didn't provide a real ID or mention to ban. Or maybe they were already banned? If the problem persists, contact my devs.");});
+            
     }
 };
