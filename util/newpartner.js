@@ -13,9 +13,8 @@ module.exports = async (message, client) => {
         .setTitle(`New Partner #${tp.total}!`)
         .setThumbnail(message.guild.iconURL({ size: 1024, dynamic: true }))
         .setDescription(`PM: ${message.member.displayName} || <@${message.member.id}>\nTheir partner count: ${tp.partners[message.author.id]}`)
-        .setImage("https://cdn.discordapp.com/attachments/821171356820963328/847607981247561758/20210504_174641.gif")
         .setColor('52c7bb')
-        .setFooter("Luno", client.user.avatarURL())
+        .setFooter("Kasune", client.user.avatarURL())
         .setTimestamp()
     );
 };
