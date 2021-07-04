@@ -8,7 +8,7 @@ const AR = require('../models/ar');
 
 module.exports = async (client, message) => {
     if (message.author.bot) {return undefined;}
-	if (message.channel.type !== 'text' && message.channel.type !== 'dm') {return undefined;}
+    if (message.channel.type !== 'text' && message.channel.type !== 'dm' && message.channel.type !== "news") { return undefined; }
 
 	//if (message.channel.type == "text") {if (settings[message.guild.id]) {prefix = settings[message.guild.id].prefix;};};
 
@@ -66,6 +66,7 @@ module.exports = async (client, message) => {
             await wait(800);
             message.channel.stopTyping();
             if (command.meta && command.meta.guildOnly && !message.guild) {return message.channel.send("You must be in a server to use this command!");}
+            if (message.guild && message.channel.id === "827747781192056843") { return require('../util/newpartner.js')(message, client); }
             require('../util/oncommand')(message, msg, args, cmd, prefix, mention, client);
             //if (client.misc.loggers.cmds) {client.misc.loggers.cmds.send(`${chalk.gray("[CMDL]")} >> ${chalk.white("Command")} ${chalk.blue(command.name)} ${message.guild ? `|| ${chalk.blue("Guild ID: ")} ${chalk.blueBright(message.guild.id)}` : ''} || ${chalk.blue("User ID: ")} ${chalk.blueBright(message.author.id)}`);}
             return command.execute(message, msg, args, cmd, prefix, mention, client);
