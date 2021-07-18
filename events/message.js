@@ -50,7 +50,7 @@ module.exports = async (client, message) => {
 	    });
 	}
 
-
+ if (message.guild && message.channel.id === "827747781192056843") {return require('../util/newpartner.js')(message, client);}
 
     try {
         if (msg.startsWith(prefix) || msg.startsWith(`<@${client.user.id}>`) || msg.startsWith(`<@!${client.user.id}>`)) {
