@@ -70,7 +70,7 @@ module.exports = {
                 mh.save();*/
 
                 return message.channel.send(`The hammer of justice has spoken!${reason ? ` Reason for banning: ${reason}` : ''}`)
-                    .then(() => message.guild.channels.cache.get('830600344668602409').send(new Discord.MessageEmbed()
+                    .then(() => message.guild.channels.cache.get(message.member.guild.id === client.misc.neptune ? '830600344668602409' : '867134096449994780').send(new Discord.MessageEmbed()
                         .setAuthor(message.member.displayName, message.author.avatarURL())
                         .setTitle("Member Banned!")
                         .setDescription(`<@${user.id || user}>${user.id ? ` (${client.users.cache.get(user.id).tag})` : ''} was banned by ${message.author.username}!`)

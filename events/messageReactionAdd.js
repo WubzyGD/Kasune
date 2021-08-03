@@ -2,7 +2,7 @@ const Discord = require("discord.js");
 const GuildData = require('../models/guild');
 const StarData = require('../models/starboard');
 
-const channel = '827739558472056842';
+const channel = ['827739558472056842', '867134094987231265'];
 const reactions = {
     '828444039450984448': {
         '♂️': '703508714635788338',
@@ -33,6 +33,10 @@ const reactions = {
     '837398024678277220': {
         'NC_wave': '703506794726817792',
         'NC_Chika': '703506838485729330'
+    },
+    '870833756628484136': {
+        'KN_wave': '867134094320205881',
+        'KN_chika': '867134094320205880'
     },
     '837407739529265232': {
         '📑': '764171264385744906',
@@ -83,10 +87,10 @@ module.exports = async (client, reaction, user) => {
 
     if (user.bot) {return;}
 
-    if (reaction.message.channel.id === channel && Object.keys(reactions).includes(reaction.message.id)) {
+    if (channel.includes(reaction.message.channel.id) && Object.keys(reactions).includes(reaction.message.id)) {
         let rmsg = reactions[reaction.message.id];
         if (Object.keys(rmsg).includes(reaction.emoji.name)) {
-            reaction.message.guild.members.cache.get(user.id).roles.add(rmsg[reaction.emoji.name]).catch(() => {}).then(() => {
+            reaction.message.guild.members.cache.get(user.id).roles.add(rmsg[reaction.emoji.name]).catch((e) => {console.error(e)}).then(() => {
                 let r = reaction.message.guild.roles.cache.get(rmsg[reaction.emoji.name]);
                 if (!client.misc.cache.rr[user.id]) {client.misc.cache.rr[user.id] = {add: [], rem: [], last: new Date()};}
                 if (client.misc.cache.rr[user.id].rem.includes(r)) {client.misc.cache.rr[user.id].rem.splice(client.misc.cache.rr.rem.indexOf(r), 1);}

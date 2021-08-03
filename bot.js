@@ -14,7 +14,10 @@ client.misc = {
     loggers: {},
     cache: {rr:{}},
     neptune: '703196054966894642',
+    night: '867134094075756595',
     selfroles: new Map(),
+    queue: {},
+    attemptedQueue: []
 };
 
 //const config = require('./config.js');

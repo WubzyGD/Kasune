@@ -48,7 +48,7 @@ module.exports = {
         try {
             person.roles.add("717419538970312755")
                 .then(() => message.channel.send("I've muted that member!")
-                    .then(() => message.guild.channels.cache.get('830600344668602409').send(new Discord.MessageEmbed()
+                    .then(() => message.guild.channels.cache.get(message.member.guild.id === client.misc.neptune ? '830600344668602409' : '867134096449994780').send(new Discord.MessageEmbed()
                         .setAuthor(message.member.displayName, message.author.avatarURL())
                         .setTitle("Member Muted!")
                         .setDescription(`<@${person.id}> was muted!`)

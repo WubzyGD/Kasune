@@ -1,4 +1,4 @@
-const channel = '827739558472056842';
+const channel = ['827739558472056842', '867134094987231265'];
 const reactions = {
     '828444039450984448': {
         '♂️': '703508714635788338',
@@ -30,6 +30,10 @@ const reactions = {
         'NC_wave': '703506794726817792',
         'NC_Chika': '703506838485729330'
     },
+    '870833756628484136': {
+        'KN_wave': '867134094320205881',
+        'KN_chika': '867134094320205880'
+    },
     '837407739529265232': {
         '📑': '764171264385744906',
         '📌': '764171275814830110',
@@ -42,10 +46,10 @@ module.exports = async (client, reaction, user) => {
     if (reaction.partial) {try {await reaction.fetch();} catch {return;}}
     if (user.bot) {return;}
 
-    if (reaction.message.channel.id === channel && Object.keys(reactions).includes(reaction.message.id)) {
+    if (channel.includes(reaction.message.channel.id) && Object.keys(reactions).includes(reaction.message.id)) {
         let rmsg = reactions[reaction.message.id];
         if (Object.keys(rmsg).includes(reaction.emoji.name)) {
-            reaction.message.guild.members.cache.get(user.id).roles.remove(rmsg[reaction.emoji.name]).catch(() => {}).then(() => {
+            reaction.message.guild.members.cache.get(user.id).roles.remove(rmsg[reaction.emoji.name]).catch((e) => {console.error(e)}).then(() => {
                 let r = reaction.message.guild.roles.cache.get(rmsg[reaction.emoji.name]);
                 if (!client.misc.cache.rr[user.id]) {client.misc.cache.rr[user.id] = {add: [], rem: [], last: new Date()};}
                 if (client.misc.cache.rr[user.id].add.includes(r)) {client.misc.cache.rr[user.id].add.splice(client.misc.cache.rr.add.indexOf(r), 1);}
@@ -53,5 +57,14 @@ module.exports = async (client, reaction, user) => {
                 client.misc.cache.rr[user.id].last.setTime(Date.now());
             });
         }
+    }
+
+    if (reaction.message.guild && client.misc.queue[reaction.message.guild.id]
+    && reaction.message.guild.members.cache.get(user.id).voice.channel
+    && reaction.message.guild.members.cache.get(user.id).voice.channel.id === client.misc.queue[reaction.message.guild.id].channel
+    && reaction.message.id === client.misc.queue[reaction.message.guild.id].controller.id
+    && reaction.emoji.name === '⏯️') {
+        await client.misc.queue[reaction.message.guild.id].player.pause(false);
+        require('../util/updatecontroller')(reaction.message, client);
     }
 };

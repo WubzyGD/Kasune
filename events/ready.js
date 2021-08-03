@@ -3,6 +3,8 @@ const chalk = require('chalk');
 const moment = require('moment');
 const mongoose = require('mongoose');
 const ora = require('ora');
+const Lavalink = require('@lavacord/discord.js');
+const child_process = require('child_process');
 
 const GuildSettings = require('../models/guild');
 const BotDataSchema = require('../models/bot');
@@ -11,8 +13,9 @@ const Mute = require('../models/mute');
 
 const siftStatuses = require('../util/siftstatuses');
 const message = require('./message');
+const wait = require('../util/wait');
 
-const prefix = '-';
+const prefix = '--';
 
 module.exports = async client => {
 	const config = client.config;
@@ -79,13 +82,33 @@ module.exports = async client => {
 
 	setInterval(() => require('../util/rrloop')(client), 10000);
 
+	const memloop = (() => client.guilds.cache.get(client.misc.night).channels.cache.get('870877798447869953').setName(`Members: ${client.guilds.cache.get(client.misc.night).members.cache.size}`));
+	memloop();
+	setInterval(() => memloop, 3600000);
+
 	let fproms = [];
+	let fproms2 = [];
 	['828444039450984448', '828450544833396767', '837395032591695883', '837398024678277220', '837407739529265232'].forEach(async m => {
 		fproms.push(client.guilds.cache.get(client.misc.neptune).channels.cache.get('827739558472056842').messages.fetch(m));
 	});
+	['870833756628484136'].forEach(async m => {
+		fproms2.push(client.guilds.cache.get(client.misc.night).channels.cache.get('867134094987231265').messages.fetch(m));
+	});
 	let fms = await Promise.all(fproms);
+	let fms2 = await Promise.all(fproms2);
 	console.log('');
-	fms.forEach(fm => {console.log(`${chalk.gray('[PROC]')} >> ${chalk.blueBright(`${fm.embeds[0].title}`)} ${chalk.white("cached.")}`);});
+	fms.forEach(fm => {console.log(`${chalk.gray('[PROC]')} >> ${chalk.blue('[NEPTUNE]')} ${chalk.blueBright(`${fm.embeds[0].title}`)} ${chalk.white("cached.")}`);});
+	fms2.forEach(fm => {console.log(`${chalk.gray('[PROC]')} >> ${chalk.blue('[NIGHT-L]')} ${chalk.blueBright(`${fm.embeds[0].title}`)} ${chalk.white("cached.")}`);});
+
+	client.lavacordManager = new Lavalink.Manager(client, client.config.lava.nodes, {user: client.user.id});
+	client.lavacordManager.on('error', (err, node) => {console.error(`\nAn error occurred on Lava node ${node.id}.`, err)});
+
+	await client.lavacordManager.connect()
+		.then(() => {
+			console.log(`${chalk.gray('\n[INFO]')} >> ${chalk.greenBright("Connected")} to Lavacord.`);
+			client.misc.lava = true;
+		})
+		.catch(e => {console.log(`${chalk.red('\n[ERROR]')} >> ${chalk.yellow("Occured while connecting to Lavacord:")}`); console.error(e);});
 
 	let botData = await BotDataSchema.findOne({finder: 'lel'})
 		? await BotDataSchema.findOne({finder: 'lel'})
@@ -100,6 +123,8 @@ module.exports = async client => {
 		});
     botData.restarts = botData.restarts + 1;
     botData.lastRestart = new Date();
+
+	
 
 	console.log(`${chalk.gray('\n[INFO]')} >> ${chalk.white(`This is restart #${botData.restarts}.`)}`);
 

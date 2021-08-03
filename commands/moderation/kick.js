@@ -62,7 +62,7 @@ module.exports = {
                 mh.save();*/
 
                 return message.channel.send(`I got em outta here!${reason ? ` Reason for kicking: ${reason}` : ''}`)
-                    .then(() => message.guild.channels.cache.get('830600344668602409').send(new Discord.MessageEmbed()
+                    .then(() => message.guild.channels.cache.get(message.member.guild.id === client.misc.neptune ? '830600344668602409' : '867134096449994780').send(new Discord.MessageEmbed()
                         .setAuthor(message.member.displayName, message.author.avatarURL())
                         .setTitle("Member Kicked!")
                         .setDescription(`<@${user.id}> was kicked by ${message.author.username}!`)

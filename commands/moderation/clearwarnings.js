@@ -53,7 +53,7 @@ module.exports = {
 
         mh.cases = mhcases;
         mh.save();
-        message.guild.channels.cache.get('830600344668602409').send(new Discord.MessageEmbed()
+        message.guild.channels.cache.get(message.member.guild.id === client.misc.neptune ? '830600344668602409' : '867134096449994780').send(new Discord.MessageEmbed()
             .setAuthor(message.member.displayName, message.author.avatarURL())
             .setTitle("Member Warnings Cleared!")
             .setDescription(`<@${user.id}> had ${wc} warnings`)

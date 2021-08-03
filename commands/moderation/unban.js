@@ -24,7 +24,7 @@ module.exports = {
         return message.guild.members.unban(user.id || user)
             .then(async () => {
                 return message.channel.send("I've unbanned that user!")    
-                    .then(() => message.guild.channels.cache.get('830600344668602409').send(new Discord.MessageEmbed()
+                    .then(() => message.guild.channels.cache.get(message.member.guild.id === client.misc.neptune ? '830600344668602409' : '867134096449994780').send(new Discord.MessageEmbed()
                         .setAuthor(message.member.displayName, message.author.avatarURL())
                         .setTitle("Member Unbanned!")
                         .setDescription(`<@${user.id || user}> was unbanned by ${message.author.username}!`)
