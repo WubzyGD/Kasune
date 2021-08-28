@@ -50,6 +50,24 @@ module.exports = async (client, message) => {
 	    });
 	}
 
+    if (message.channel.id === "827752961857028097") {
+        if (!client.misc.bumpPing) {
+            client.misc.bumpPing = setTimeout(() => {
+                client.misc.bumpPing = null;
+                message.channel.send([
+                    `<@&880983649363836998>, here's your friendly neighborhood reminder to bump the server!`,
+                    `<@&880983649363836998>, time to bump bitches!`,
+                    `<@&880983649363836998>, it do be bump time`,
+                    `<@&880983649363836998>, bump the heccin server`,
+                    `<@&880983649363836998>, bump or death`,
+                    `Bump the server <@&880983649363836998>!`,
+                    `<@&880983649363836998> since I can't exactly bump, looks like you guys gotta do it.`,
+                    `<@&880983649363836998>, boomp servor :3`
+                ][Math.floor(Math.random() * 7)]);
+            }, (1000 * 60 * 60 * 2));
+        }
+    }
+
  if (message.guild && message.channel.id === "827747781192056843") {return require('../util/newpartner.js')(message, client);}
 
     try {
